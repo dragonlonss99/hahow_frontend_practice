@@ -1,7 +1,6 @@
 const prod = process.env.NODE_ENV === 'production';
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
 module.exports = {
@@ -21,10 +20,6 @@ module.exports = {
 				},
 				use: 'ts-loader',
 			},
-			{
-				test: /\.s[ac]ss$/i,
-				use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
-			},
 		],
 	},
 	devtool: prod ? undefined : 'source-map',
@@ -34,7 +29,6 @@ module.exports = {
 			hash: true,
 			inject: true,
 		}),
-		new MiniCssExtractPlugin(),
 	],
 	devServer: {
 		historyApiFallback: true,
