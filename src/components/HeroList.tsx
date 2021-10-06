@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import axios from 'axios';
 import { useLocation, useHistory } from "react-router-dom";
 import HeroCard from './HeroCard';
 import { useAppDispatch, useAppSelector } from '../hooks'
@@ -16,9 +15,7 @@ const HeroList = () => {
     const heroList = useAppSelector((state:RootState)=> state.heroList);
 
     useEffect(()=>{
-        axios.get('https://hahow-recruit.herokuapp.com/heroes').then((res)=>{
-            dispatch(addHeroList(res.data));
-        });
+        dispatch(addHeroList());
     },[])
 
     const handleClickHeroCard = (heroId:string) =>{

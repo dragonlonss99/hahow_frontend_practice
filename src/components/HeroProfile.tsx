@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom";
-import axios from 'axios';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { addHeroProfile, modifyHeroProfile } from '../redux/action/heroProfileAction'
+import { addHeroProfile, modifyHeroProfile, patchHeroProfile } from '../redux/action/heroProfileAction'
 import { RootState } from '../store';
 import PowerBar from './PowerBar'
 import { Profile } from '../styledComponent'
@@ -11,25 +10,16 @@ import { Profile } from '../styledComponent'
 const HeroProfile = () => {
     const [totalLeft, setTotalLeft] = useState<number>(0);
     const params : { heroId : string } = useParams();
+    const heroId:number= parseInt(params.heroId);
     const dispatch = useAppDispatch();
     const heroProfile = useAppSelector((state:RootState)=> state.heroProfile)
 
     useEffect(()=>{
-        const heroId:number= parseInt(params.heroId);
-        axios.get(`https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`).then((res)=>{
-            dispatch(addHeroProfile(res.data))
-        });
+        dispatch(addHeroProfile(heroId));
     },[params])
 
     const handleSaveClick = () =>{
-        const heroId = parseInt(params.heroId);
-        axios.patch(`https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`, heroProfile)
-        .then(()=>{
-            toast.success('儲存成功');
-        })
-        .catch(()=>{
-            toast.error('儲存失敗！',);
-        });
+        dispatch(patchHeroProfile(heroId, heroProfile))
     }
 
     const modifyPower = ( key:string, value:number) => {
