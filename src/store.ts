@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import promise from 'redux-promise';
+import thunk from 'redux-thunk';
 import heroList from './redux/reducer/heroListReducer'
 import heroProfile from './redux/reducer/heroProfileReducer'
 
@@ -8,7 +8,7 @@ export const store = configureStore({
         heroList,
         heroProfile,
     },
-    middleware:[promise],
+    middleware:[thunk],
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
