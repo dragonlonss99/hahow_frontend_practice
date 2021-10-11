@@ -13,8 +13,7 @@ export function addHero (res:any){
 }
 
 export const fetchList = ():ThunkAction<Promise<void>, {}, {}, AnyAction> => 
-    {debugger
-    return(dispatch:ThunkDispatch<{}, {}, AnyAction> ) => axios.get('https://hahow-recruit.herokuapp.com/heroes')
+    (dispatch:ThunkDispatch<{}, {}, AnyAction> ) => axios.get('https://hahow-recruit.herokuapp.com/heroes')
     .then((res)=>{
         dispatch(addHero(res));
-    })}
+    })
