@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import { useLocation, useHistory } from "react-router-dom";
 import HeroCard from './HeroCard';
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { addHeroList, fetchList } from '../redux/action/heroListAction'
+import { addHeroList, fetchList, fetchListThunkPromise } from '../redux/action/heroListAction'
 import { RootState } from '../store';
 import { HeroListItem } from '../Interface'
 import { List } from '../styledComponent'
 import { AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
+import { ThunkDispatch, ThunkAction } from 'redux-thunk';
 
 
 const HeroList = () => {
@@ -20,6 +20,7 @@ const HeroList = () => {
     useEffect(()=>{
         // dispatch(addHeroList());
         dispatch(fetchList());
+        dispatch(fetchListThunkPromise());
     },[])
 
     const handleClickHeroCard = (heroId:string) =>{

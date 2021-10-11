@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom";
 import { Toaster } from 'react-hot-toast';
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { addHeroProfile, modifyHeroProfile, patchHeroProfile, fetchProfile } from '../redux/action/heroProfileAction'
+import { addHeroProfile, modifyHeroProfile, patchHeroProfile, fetchProfile, patchProfileThunk } from '../redux/action/heroProfileAction'
 import { RootState } from '../store';
 import PowerBar from './PowerBar'
 import { Profile } from '../styledComponent'
@@ -21,7 +21,8 @@ const HeroProfile = () => {
     },[params])
 
     const handleSaveClick = () =>{
-        dispatch(patchHeroProfile(heroId, heroProfile))
+        // dispatch(patchHeroProfile(heroId, heroProfile))
+        dispatch(patchProfileThunk(heroId, heroProfile))
     }
 
     const modifyPower = ( key:string, value:number) => {

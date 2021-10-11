@@ -1,6 +1,6 @@
 import { AnyAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { ThunkAction, ThunkDispatch } from 'redux-thunk'
+import { ThunkAction } from 'redux-thunk'
 
 export const ADD_HERO_PROFILE = 'ADD_HERO_PROFILE';
 export const MODIFY_HERO_PROFILE = 'MODIFY_HERO_PROFILE';
@@ -25,7 +25,13 @@ export function addProfile(res:any){
 }
 
 export const fetchProfile = (heroId:number):ThunkAction<Promise<void>, {}, {}, AnyAction> => 
-    (dispatch:ThunkDispatch<{}, {}, AnyAction> ) => axios.get(`https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`)
-    .then((res)=>{
+    async (dispatch) => {
+        const res = await axios.get(`https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`)
         dispatch(addProfile(res));
-    })
+    }
+
+export const patchProfileThunk = (heroId:number, heroProfile:object):ThunkAction<Promise<void>, {}, {}, AnyAction> => 
+    async (dispatch) =>{
+        const res = await axios.patch(`https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`, heroProfile)
+        dispatch({ type: PATCH_HERO_PROFILE, payload: res})
+    }
