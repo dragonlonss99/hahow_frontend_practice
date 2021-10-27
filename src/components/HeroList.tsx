@@ -1,31 +1,12 @@
-import React, { useEffect } from 'react'
-import { useLocation, useHistory } from "react-router-dom";
+import React from 'react'
 import HeroCard from './HeroCard';
-import { useAppDispatch, useAppSelector } from '../hooks'
-import { addHeroList, fetchList, fetchListThunkPromise } from '../redux/action/heroListAction'
-import { RootState } from '../store';
 import { HeroListItem } from '../Interface'
 import { List } from '../styledComponent'
-import { AnyAction } from 'redux';
-import { ThunkDispatch, ThunkAction } from 'redux-thunk';
-
+import { useHeroListData } from '../utils/customHooks';
 
 const HeroList = () => {
-    const location = useLocation();
-    const history = useHistory();
-    const IdInPath = location.pathname.split('/')[2];
-    const dispatch:ThunkDispatch<{}, {}, AnyAction> = useAppDispatch();
-    const heroList = useAppSelector((state:RootState)=> state.heroList);
+    const heroList = useHeroListData();
 
-    useEffect(()=>{
-        // dispatch(addHeroList());
-        dispatch(fetchList());
-        dispatch(fetchListThunkPromise());
-    },[])
-
-    const handleClickHeroCard = (heroId:string) =>{
-        history.push(`/heroes/${heroId}`)
-    }
     return (
         <List className='hero-list'>
             {heroList instanceof Array &&
@@ -35,8 +16,6 @@ const HeroList = () => {
                     image={item.image} 
                     id={item.id} 
                     key={`hero_${item.id}`}
-                    selected={IdInPath === item.id}
-                    handleClickHeroCard={handleClickHeroCard}
                 />)}
         </List>
     )

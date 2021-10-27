@@ -1,7 +1,5 @@
 import { ADD_HERO_LIST } from '../action/heroListAction';
-import  { AxiosResponse } from 'axios';
 import { AnyAction } from '@reduxjs/toolkit';
-
 
 const initState:Object[]= [];
 

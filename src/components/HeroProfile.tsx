@@ -1,43 +1,23 @@
-import React, { useState, useEffect } from 'react'
-import { useParams } from "react-router-dom";
+import React from 'react'
 import { Toaster } from 'react-hot-toast';
-import { useAppDispatch, useAppSelector } from '../hooks'
-import { addHeroProfile, modifyHeroProfile, patchHeroProfile, fetchProfile, patchProfileThunk } from '../redux/action/heroProfileAction'
-import { RootState } from '../store';
 import PowerBar from './PowerBar'
 import { Profile } from '../styledComponent'
-import { AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
+import { useHeroProfile, useSaveClick, useTotalLeft } from '../utils/customHooks'
 
 const HeroProfile = () => {
-    const [totalLeft, setTotalLeft] = useState<number>(0);
-    const params : { heroId : string } = useParams();
-    const heroId:number= parseInt(params.heroId);
-    const dispatch:ThunkDispatch<{}, {}, AnyAction> = useAppDispatch();
-    const heroProfile = useAppSelector((state:RootState)=> state.heroProfile)
+    const heroProfile = useHeroProfile();
+    const totalLeft = useTotalLeft();
 
-    useEffect(()=>{
-        dispatch(fetchProfile(heroId));
-    },[params])
+    const handleSaveClick = useSaveClick(heroProfile);
 
-    const handleSaveClick = () =>{
-        // dispatch(patchHeroProfile(heroId, heroProfile))
-        dispatch(patchProfileThunk(heroId, heroProfile))
-    }
-
-    const modifyPower = ( key:string, value:number) => {
-        dispatch(modifyHeroProfile({ key, value }));
-        setTotalLeft(totalLeft - value);
-    }
-
-    const renderPowers = () => Object.keys(heroProfile).map((key)=>
-    <PowerBar 
-        key={key}
-        powerName={key} 
-        num={heroProfile[key]} 
-        totalLeft={totalLeft}
-        modifyPower={modifyPower}
-    />)
+    const renderPowers = () => 
+        Object.keys(heroProfile).map((key)=>
+            <PowerBar 
+                key={key}
+                powerName={key} 
+                num={heroProfile[key]} 
+            />
+    )
 
     return (
         <Profile>

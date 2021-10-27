@@ -2,11 +2,13 @@ import { configureStore } from '@reduxjs/toolkit'
 import thunk from 'redux-thunk';
 import heroList from './redux/reducer/heroListReducer'
 import heroProfile from './redux/reducer/heroProfileReducer'
+import totalLeft from './redux/reducer/totalLeftReducer';
 
 export const store = configureStore({
     reducer:{
         heroList,
         heroProfile,
+        totalLeft,
     },
     middleware:[thunk],
 })

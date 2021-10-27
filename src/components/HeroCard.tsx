@@ -1,11 +1,14 @@
 import React from 'react'
-import { HeroCardProp } from '../Interface'
+import { HeroListItem } from '../Interface'
 import { Card } from '../styledComponent';
+import { useCardClick,useSelected } from '../utils/customHooks';
 
-const HeroCard = ({ name, image, id, selected, handleClickHeroCard }: HeroCardProp) => {
-    
+const HeroCard = ({ name, image, id }: HeroListItem) => {
+    const handleClick = useCardClick(id);
+    const selected = useSelected(id);
+
     return (
-        <Card className='hero-card' onClick={()=>{handleClickHeroCard(id)}} selected={selected}>
+        <Card className='hero-card' onClick={handleClick} selected={selected}>
             <img src= {image}/>
             {name}
         </Card>

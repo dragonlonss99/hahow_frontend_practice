@@ -1,6 +1,7 @@
 import { AnyAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { ThunkAction } from 'redux-thunk'
+import { modifyLeft } from './totalLeftAction';
 
 export const ADD_HERO_PROFILE = 'ADD_HERO_PROFILE';
 export const MODIFY_HERO_PROFILE = 'MODIFY_HERO_PROFILE';
@@ -11,9 +12,13 @@ export function addHeroProfile (heroId:number){
     return { type: ADD_HERO_PROFILE, payload: res}
 }
 
-export function modifyHeroProfile (data:Object){
-    return { type: MODIFY_HERO_PROFILE, payload: data}
-}
+export const modifyHeroProfile = (data:{value:number, key: string}):ThunkAction<Promise<void>, {}, {}, AnyAction> => 
+    async(dispatch, getState:any) => {
+        const { totalLeft } = getState();
+        const totalLeftAfter = totalLeft - data.value;
+        dispatch({ type: MODIFY_HERO_PROFILE, payload: data})
+        dispatch(modifyLeft(totalLeftAfter))
+    }
 
 export function patchHeroProfile (heroId:number, heroProfile:object){
     const res = axios.patch(`https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`, heroProfile)
